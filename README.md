@@ -4,6 +4,9 @@ I've been looking all over for an easy-to-use interactive baseball scorecard, wi
 The goal of this project is to creat just that. It will replicate the look of a paper scorecard.
 This project can also be considered a learning exercise for me, so progress might be slow.
 
+A quick disclaimer: I try to avoid using AI whenever I can, but you might see I've used it to format this README.md and the ROADMAP.md.
+As for the code itself, I'm writing it all myself, but I will occasionally use AI to help me out when I can't figure something out.
+
 ---
 
 ## 🎯 Features (Current & Planned)  
@@ -23,7 +26,7 @@ This project can also be considered a learning exercise for me, so progress migh
 ## 🚀 How to run  
 
 1. Clone this repo:  
-   git clone https://github.com/<your-username>/baseball-scorecard.git  
+   git clone https://github.com/AnBasement/baseball-scorecard.git  
    cd baseball-scorecard  
 
 2. Open index.html in your browser.  
