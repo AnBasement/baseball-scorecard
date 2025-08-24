@@ -40,12 +40,15 @@ As for the code itself, I'm writing it all myself, but I will occasionally use A
 
 baseball-scorecard/  
 │  
-├── index.html     → Main app entry  
-├── style.css      → Styling  
-├── script.js      → Interactivity logic  
-├── README.md      → Project overview (this file)  
-├── ROADMAP.md     → Development roadmap  
-└── LICENSE.md     → GNU GPL V3 license
+├── docs/                     → Documentation files  
+│   ├── checklists/           → Markdown checklists for each phase (phase-1-checklist.md … phase-7-checklist.md)  
+│   └── ROADMAP.md            → Detailed development roadmap  
+├── index.html                → Main HTML file  
+├── style.css                 → Styling for the scorecard  
+├── script.js                 → JavaScript logic and interactivity  
+├── README.md                 → Project overview  
+├── CHANGELOG.md              → Version history and updates  
+└── LICENSE                   → Project license
 
 ---
 

@@ -1,0 +1,19 @@
+# Node modules (if you use any later)
+node_modules/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# VSCode settings folder
+.vscode/
+
+# Log files
+*.log
+
+# Local environment files
+.env
+
+# Compiled files (if any build system is used)
+dist/
+build/
