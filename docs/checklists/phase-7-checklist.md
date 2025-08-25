@@ -1,29 +1,23 @@
-# ⚡ Phase 7 Checklist – Polish & Expand
+# ⚡ Phase 7 Checklist – First Release (v0.1.0)
 
-**Goal:** Extend MVP with additional features and improvements.
+**Goal:** Deliver the first usable scorecard app with the core features complete.
 
 ### ✅ Checklist
 
-- [ ] Allow player lineup names input
-  - [ ] Replace placeholder names with custom input
-  - [ ] Validate input is not empty
+- [ ] Player & Team Names
+  - [ ] Allow user to enter lineup/player names
+  - [ ] Allow user to set team name (bottom-left cell)
+  - [ ] Validate input (no empty names)
 
-- [ ] Add more baseball notations
-  - [ ] Outs, strikeouts, walks, errors, stolen bases
-  - [ ] Optional: symbols/arrows for base running
+- [ ] Basic Game Recording
+  - [ ] Record at-bats (1B, 2B, 3B, HR, OUT)
+  - [ ] Totals update correctly (per player, per inning, per team)
 
-- [ ] Implement undo/redo functionality for at-bats
-  - [ ] Undo last entry
-  - [ ] Redo undone entry
+- [ ] User Experience
+  - [ ] Confirm before overwriting an existing hit
+  - [ ] Clear/reset button to start a new game
 
-- [ ] Export completed scorecard
-  - [ ] Export as image or PDF
-  - [ ] Optional: CSV or JSON export for data analysis
-
-- [ ] Mobile-friendly improvements
-  - [ ] Make table scrollable horizontally
-  - [ ] Optimize clickable areas for touch input
-
-- [ ] Optional: Prepare for online version
-  - [ ] Plan backend for saving multiple games (Python/Flask + SQLite)
-  - [ ] Consider Progressive Web App support
+- [ ] First Release Prep
+  - [ ] Clean up UI (basic alignment, spacing)
+  - [ ] Version/tag as **v0.1.0**
+  - [ ] Update README with usage instructions
