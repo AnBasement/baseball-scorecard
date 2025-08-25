@@ -4,6 +4,19 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.5.0] - 25-08-2025
+### Added
+- Counter system for hits
+  - Player hits are now recorded in the right-most column
+  - Bottom row shows team hits per inning
+  - Bottom right cell shows team hits total
+
+### Changed
+- `updateTotals()` now runs after every at-bat input
+- Added "0" to Hits column and team hits row in index.html for cleaner look
+
+---
+
 ## [0.0.4] - 25-08-2025
 ### Added
 - SVG diamond inside each at-bat cell

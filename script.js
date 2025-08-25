@@ -78,12 +78,55 @@ atBatCells.forEach(cell => {
 
         const hit = checkValidHit(); 
         if (hit) {
+            cell.dataset.hit = hit;            // store the hit
             const svg = cell.querySelector("svg");
             updateBases(svg, hit);
+            
+            const row = cell.closest("tr");
+            const playerIndex = [...row.parentNode.children].indexOf(row);
+            const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
+
             updateGameState(playerIndex, inningIndex, hit);
+            updateTotals();
         }
     });
 });
+
+function updateTotals() {
+    const rows = document.querySelectorAll("tbody tr"); // Select player rows
+    const tfoot = document.querySelector("tfoot tr.team-hits"); // Select team total row
+    const inningTotals = Array(9).fill(0); // Create an array for each inning
+    
+    let teamTotal = 0; // Keep track of team hits
+    
+    // Loop through every player row
+    rows.forEach(row => {
+        const atBats = row.querySelectorAll(".at-bat"); // Get at-bat cells for given player
+        let playerTotal = 0; // Counter for given player
+        
+        atBats.forEach((cell, i) => {
+            const hit = cell.dataset.hit;
+            
+            if (["1B", "2B", "3B", "HR"].includes(hit)) {
+                playerTotal += 1;     // increment player total
+                inningTotals[i] += 1; // increment inning total for that inning
+            }
+        });
+        
+        row.querySelector(".player-hits").textContent = playerTotal; // Write player's total to row
+        
+        teamTotal += playerTotal; // Add player total to team total
+    });
+    
+    // Update inning totals in team row
+    const inningCells = tfoot.querySelectorAll(".inning-total");
+    inningCells.forEach((cell, i) => {
+        cell.textContent = inningTotals[i];
+    });
+    
+    // Update the team grand total in the footer
+    tfoot.querySelector(".team-hits-total").textContent = teamTotal;
+}
 
 // Empty gameState var to start
 const gameState = [];

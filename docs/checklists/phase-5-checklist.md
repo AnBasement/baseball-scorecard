@@ -4,15 +4,12 @@
 
 ### ✅ Checklist
 
-- [ ] Update totals after each at-bat
-  - [ ] Total runs per inning per team
-  - [ ] Total runs per player if desired
+- [x] Update totals after each at-bat
+  - [x] Total hits per inning per team
+  - [x] Total hits per player if desired
 
-- [ ] Add validation to prevent accidental overwriting
-  - [ ] Prompt user if they attempt to overwrite an existing hit
+- [x] Test totals
+  - [x] Enter multiple hits in one inning and verify totals update
+  - [x] Enter hits across multiple innings and verify team totals
 
-- [ ] Test totals
-  - [ ] Enter multiple hits in one inning and verify totals update
-  - [ ] Enter hits across multiple innings and verify team totals
-
-- [ ] Ensure cell interactions still work with totals displayed
+- [x] Ensure cell interactions (SVG diamonds, base paths) still work with totals displayed
