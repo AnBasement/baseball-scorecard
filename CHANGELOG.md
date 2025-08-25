@@ -13,7 +13,7 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
-## [0.5.0] - 
+## [0.0.5] - 25-08-2025
 ### Added
 - Counter system for hits
   - Player hits are now recorded in the right-most column
