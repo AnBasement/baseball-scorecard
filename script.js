@@ -1,8 +1,51 @@
 // Creates variable atBatCell for all at-bat cells
 const atBatCells = document.querySelectorAll(".at-bat")
 
+// Draw SVG diamond into at-bat cells
+atBatCells.forEach(cell => {
+    cell.innerHTML = `
+        <svg width="50" height="50" viewBox="0 0 50 50">
+        <!-- Diamond outline -->
+        <polygon points="25,0 50,25 25,50 0,25"
+                fill="white" stroke="black" stroke-width="1"/>
+
+        <!-- Base paths -->
+        <path d="M25,50 L50,25" stroke="black" stroke-width="4" fill="none" class="path-home-first" opacity="0.2"/>
+        <path d="M50,25 L25,0"  stroke="black" stroke-width="4" fill="none" class="path-first-second" opacity="0.2"/>
+        <path d="M25,0 L0,25"   stroke="black" stroke-width="4" fill="none" class="path-second-third" opacity="0.2"/>
+        <path d="M0,25 L25,50"  stroke="black" stroke-width="4" fill="none" class="path-third-home" opacity="0.2"/>
+        </svg>
+    `;
+});
+
+// Draw paths on diamond according to hit recorded
+function updateBases(svg, hit) {
+    // Reset all paths to dim
+    svg.querySelectorAll("path").forEach(path => {
+        path.setAttribute("opacity", "0.2");
+    });
+
+    if (hit === "1B") { 
+        svg.querySelector(".path-home-first").setAttribute("opacity", "1");
+    }
+    if (hit === "2B") {
+        svg.querySelector(".path-home-first").setAttribute("opacity", "1");
+        svg.querySelector(".path-first-second").setAttribute("opacity", "1");
+    }
+    if (hit === "3B") {
+        svg.querySelector(".path-home-first").setAttribute("opacity", "1");
+        svg.querySelector(".path-first-second").setAttribute("opacity", "1");
+        svg.querySelector(".path-second-third").setAttribute("opacity", "1");
+    }
+    if (hit === "HR") {
+        svg.querySelectorAll("path").forEach(path => {
+            path.setAttribute("opacity", "1");
+        });
+    }
+}
+
 // Valid hit values
-const validHits = ["1B", "2B", "3B", "HR", "Out"]
+const validHits = ["1B", "2B", "3B", "HR", "OUT"]
 
 // Checking for valid input
 function checkValidHit() {
@@ -35,7 +78,8 @@ atBatCells.forEach(cell => {
 
         const hit = checkValidHit(); 
         if (hit) {
-            cell.textContent = hit;
+            const svg = cell.querySelector("svg");
+            updateBases(svg, hit);
             updateGameState(playerIndex, inningIndex, hit);
         }
     });

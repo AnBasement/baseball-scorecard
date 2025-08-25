@@ -4,6 +4,25 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.0.4] - 25-08-2025
+### Added
+- SVG diamond inside each at-bat cell
+- Base path segments between bases
+- Dynamic highlighting of paths based on input:
+  - 1B → home→first
+  - 2B → home→first→second
+  - 3B → home→first→second→third
+  - HR → all four segments
+- Overwrite confirmation for already filled cells
+
+### Changed
+- Changed "Runs" to "Hits" in the table and removed at-bat class
+
+### Fixed
+- Input validation properly checks "Out" now
+
+---
+
 ## [0.0.3] - 25-08-2025
 ### Added
 - Made cells interactible through clicking
