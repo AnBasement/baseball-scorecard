@@ -4,6 +4,15 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.0.3] - 25-08-2025
+### Added
+- Made cells interactible through clicking
+  - User can click a cell and input a type of hit (currently only 1B, 2B, 3B, HR or Out)
+  - Input validation to ensure correct inputs
+  - Warns user if attempting to overwrite a cell
+
+---
+
 ## [0.0.2] – 24-08-2025
 ### Added
 - Table layout for scorecard completed
