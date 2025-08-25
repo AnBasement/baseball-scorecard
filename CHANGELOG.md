@@ -4,7 +4,16 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
-## [0.5.0] - 25-08-2025
+## [0.0.6] - 26-08-2025
+### Added
+- LocalStorage support to save and load across browser refresh
+
+### Changed
+- Reorganized the ordering in script.js
+
+---
+
+## [0.5.0] - 
 ### Added
 - Counter system for hits
   - Player hits are now recorded in the right-most column
