@@ -8,7 +8,7 @@
   - [x] Header row: innings 1–9 + “Total”
   - [x] 10 rows: 1 column for player names, 9 for innings, 1 for total
 
-- [ ] Style table with CSS
+- [x] Style table with CSS
   - [x] Borders for cells
   - [x] Fixed width and height for cells
   - [x] Alternate row shading for readability
