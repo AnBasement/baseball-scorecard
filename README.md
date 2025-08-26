@@ -17,12 +17,12 @@ As for the code itself, I'm writing it all myself, but I will occasionally use A
 ✅ Mini-diamond visualization for base running  
 ✅ Automatic run totals per inning & team  
 ✅ Persistent storage (save & load games)  
-⬜ Core scorekeeping (outs tracker, runs scored, RBIs, errors etc.)
-⬜ Advanced scorekeeping (baserunner progression, pitch tracking, two-team support etc.)
-⬜ Improved UX (dynamic UI, keyboard shortcuts, styling & layout options)
+⬜ Core scorekeeping (outs tracker, runs scored, RBIs, errors etc.)  
+⬜ Advanced scorekeeping (baserunner progression, pitch tracking, two-team support etc.)  
+⬜ Improved UX (dynamic UI, keyboard shortcuts, styling & layout options)  
 ⬜ Export completed scorecard (image/PDF)  
 ⬜ Mobile-friendly Progressive Web App (PWA)  
-⬜ Data analytics (tracking player and season stats etc.)
+⬜ Data analytics (tracking player and season stats etc.)  
 
 ---
 
