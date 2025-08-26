@@ -4,6 +4,21 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.2.3] - 26-08-2025
+### Added
+- Added defensive errors as an at-bat option.
+  - Inning and game totals are counted in the table footer.
+- Added an option to clear a cell if incorrect option was selected.
+
+### Changed
+- Changed the footer from 'H' and 'R' to 'Hits' and 'Runs' for now.
+
+### Fixed
+- Previously if an out was recorded by mistake and changed to something else, the out counter persisted unless page was refreshed. This has been fixed.
+- Also changed the outs counter to change dynamically, so if a previous out is changed to a not-out, the consecutive outs will decrease by 1.
+
+---
+
 ## [0.2.2] - 26-08-2025
 ### Added
 - Added an 'outs' tracker which increments whenever an out is selected in a cell.

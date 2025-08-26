@@ -18,21 +18,63 @@ for(let i = 0; i < 9; i++){
     gameState[i] = Array(9).fill("");
 }
 
+// Track the sequence of outs per inning
+const inningOutCells = Array(9).fill(null).map(() => []);
+
 // Function for recording outs
 function recordOut(cell, inningIndex) {
-    // Increment outs count up to a maximum of 3
-    inningOuts[inningIndex] = Math.min((inningOuts[inningIndex] || 0) + 1, 3);
-
     const svg = cell.querySelector("svg");
     if (!svg) return;
 
-    const circle = svg.querySelector("circle");
-    const text = svg.querySelector(".outs-text");
+    // Only add if this cell is not already counted
+    if (!inningOutCells[inningIndex].includes(cell)) {
+        inningOutCells[inningIndex].push(cell);
+    }
 
-    if (circle && text) {
-        circle.setAttribute("opacity", "1");
-        text.setAttribute("opacity", "1");
-        text.textContent = inningOuts[inningIndex];
+    // Update out numbers for all cells in sequence
+    inningOutCells[inningIndex].forEach((outCell, idx) => {
+        const outSvg = outCell.querySelector("svg");
+        const circle = outSvg.querySelector("circle");
+        const text = outSvg.querySelector(".outs-text");
+
+        if (circle) circle.setAttribute("opacity", "1");
+        if (text) {
+            text.setAttribute("opacity", "1");
+            text.textContent = idx + 1; // 1-based
+        }
+    });
+}
+
+// Remove a cell from out tracking if hit changes
+function removeOut(cell, inningIndex) {
+    const index = inningOutCells[inningIndex].indexOf(cell);
+    if (index !== -1) {
+        inningOutCells[inningIndex].splice(index, 1); // remove it
+    }
+
+    // Recalculate out numbers for remaining cells
+    inningOutCells[inningIndex].forEach((outCell, idx) => {
+        const svg = outCell.querySelector("svg");
+        const circle = svg.querySelector("circle");
+        const text = svg.querySelector(".outs-text");
+
+        if (circle) circle.setAttribute("opacity", "1");
+        if (text) {
+            text.setAttribute("opacity", "1");
+            text.textContent = idx + 1;
+        }
+    });
+
+    // Hide this cell's outs indicator
+    const svg = cell.querySelector("svg");
+    if (svg) {
+        const circle = svg.querySelector("circle");
+        const text = svg.querySelector(".outs-text");
+        if (circle) circle.setAttribute("opacity", "0");
+        if (text) {
+            text.setAttribute("opacity", "0");
+            text.textContent = "0";
+        }
     }
 }
 
@@ -63,8 +105,25 @@ function highlightCurrentInning(inningIndex) {
 function updateBases(svg, hit, cell) {
     // Reset all paths and remove previous text
     svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
-    let text = svg.querySelector(".hit-text");
-    if (text) text.remove();
+    const prevText = svg.querySelector(".hit-text");
+    if (prevText) prevText.remove();
+
+    // Reset outs indicator
+    const outsCircle = svg.querySelector("circle");
+    const outsText = svg.querySelector(".outs-text");
+    if (outsCircle) outsCircle.setAttribute("opacity", "0");
+    if (outsText) {
+        outsText.setAttribute("opacity", "0");
+        outsText.textContent = "0";
+    }
+
+    // Undo previous out if any
+    if (cell.dataset.outRecorded === "true") {
+        const row = cell.closest("tr");
+        const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
+        removeOut(cell, inningIndex);
+        cell.dataset.outRecorded = "false";
+    }
 
     switch(hit) {
         case "1B":
@@ -86,30 +145,43 @@ function updateBases(svg, hit, cell) {
         case "BB":
         case "HBP":
             svg.querySelector(".path-home-first").setAttribute("opacity", "1");
-            text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", hit === "BB" ? "38" : "38");
-            text.setAttribute("y", "45");
-            text.setAttribute("font-size", "10");
-            text.setAttribute("text-anchor", "start");
-            text.setAttribute("dominant-baseline", "middle");
-            text.textContent = hit;
-            text.classList.add("hit-text");
-            svg.appendChild(text);
+            const textBB = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textBB.setAttribute("x", "38");
+            textBB.setAttribute("y", "45");
+            textBB.setAttribute("font-size", "10");
+            textBB.setAttribute("text-anchor", "start");
+            textBB.setAttribute("dominant-baseline", "middle");
+            textBB.textContent = hit;
+            textBB.classList.add("hit-text");
+            svg.appendChild(textBB);
+            break;
+        case "E":
+            svg.querySelector(".path-home-first").setAttribute("opacity", "1");
+            const errorText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            errorText.setAttribute("x", "25");
+            errorText.setAttribute("y", "27");
+            errorText.setAttribute("font-size", "20");
+            errorText.setAttribute("font-weight", "bold");
+            errorText.setAttribute("text-anchor", "middle");
+            errorText.setAttribute("dominant-baseline", "middle");
+            errorText.textContent = hit;
+            errorText.classList.add("hit-text");
+            svg.appendChild(errorText);
             break;
         case "K":
         case "LO":
         case "FO":
         case "GO":
-            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            text.setAttribute("x", "25");
-            text.setAttribute("y", "27");
-            text.setAttribute("font-size", "20");
-            text.setAttribute("font-weight", "bold");
-            text.setAttribute("text-anchor", "middle");
-            text.setAttribute("dominant-baseline", "middle");
-            text.textContent = hit;
-            text.classList.add("hit-text");
-            svg.appendChild(text);
+            const textOut = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textOut.setAttribute("x", "25");
+            textOut.setAttribute("y", "27");
+            textOut.setAttribute("font-size", "20");
+            textOut.setAttribute("font-weight", "bold");
+            textOut.setAttribute("text-anchor", "middle");
+            textOut.setAttribute("dominant-baseline", "middle");
+            textOut.textContent = hit;
+            textOut.classList.add("hit-text");
+            svg.appendChild(textOut);
 
             if (!cell) {
                 console.warn("Cell not provided for out-type hit");
@@ -120,39 +192,74 @@ function updateBases(svg, hit, cell) {
             const row = cell.closest("tr");
             const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
             recordOut(cell, inningIndex);
+
+            // Mark that this cell contributed to the out counter
+            cell.dataset.outRecorded = "true";
             break;
     }
 }
 
 // Valid input selections
-const atBatOutcomes = ["1B", "2B", "3B", "HR", "BB", "K", "FO", "GO", "HBP"];
+const atBatOutcomes = ["1B", "2B", "3B", "HR", "BB", "K", "FO", "GO", "HBP", "E"];
 
 // Popup that allows for selection of at-bat result
-function createOutcomeDropdown(cell) {
-    const select = document.createElement("select");
-    select.innerHTML = `<option value="">-</option>` + 
-        atBatOutcomes.map(hit => `<option value="${hit}">${hit}</option>`).join("");
-    select.addEventListener("change", () => {
-        const hit = select.value;
-        if (hit) {
-            cell.dataset.hit = hit;
-            const svg = cell.querySelector("svg");
-            updateBases(svg, hit, cell); // pass cell here
+document.getElementById("modalOk").addEventListener("click", () => {
+    if (!currentCell) return;
+    const select = document.getElementById("outcomeSelect");
+    const hit = select.value;
 
-            const row = cell.closest("tr");
-            const playerIndex = [...row.parentNode.children].indexOf(row);
-            const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
+    const row = currentCell.closest("tr");
+    const playerIndex = [...row.parentNode.children].indexOf(row);
+    const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(currentCell);
 
-            updateGameState(playerIndex, inningIndex, hit);
-            updateTotals();
-            saveState();
-            highlightCurrentBatter(cell);
-            highlightCurrentInning(inningIndex);
+    if (!hit) {
+        // Clear the at-bat cell
+        currentCell.dataset.hit = "";
+
+        const svg = currentCell.querySelector("svg");
+        if (svg) {
+            // Reset polygon fill
+            const polygon = svg.querySelector("polygon");
+            if (polygon) polygon.setAttribute("fill", "white");
+
+            // Reset all paths
+            svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
+
+            // Remove any hit text
+            const text = svg.querySelector(".hit-text");
+            if (text) text.remove();
+
+            // Reset outs circle and text
+            const circle = svg.querySelector("circle");
+            const outsText = svg.querySelector(".outs-text");
+            if (circle) circle.setAttribute("opacity", "0");
+            if (outsText) {
+                outsText.setAttribute("opacity", "0");
+                outsText.textContent = "0";
+            }
+
+            // Remove this cell from out tracking if it was recorded
+            if (currentCell.dataset.outRecorded === "true") {
+                removeOut(currentCell, inningIndex);
+                currentCell.dataset.outRecorded = "false";
+            }
         }
-    });
-    cell.innerHTML = ""; // clear previous content
-    cell.appendChild(select);
-}
+    } else {
+        // Normal behavior if a hit is selected
+        currentCell.dataset.hit = hit;
+        const svg = currentCell.querySelector("svg");
+        updateBases(svg, hit, currentCell);
+    }
+
+    // Update game state, totals, and highlights
+    updateGameState(playerIndex, inningIndex, hit);
+    updateTotals();
+    saveState();
+    highlightCurrentBatter(currentCell);
+    highlightCurrentInning(inningIndex);
+
+    hideModal();
+});
 
 // Updates the totals for hits and runs
 function updateTotals() {
@@ -206,6 +313,27 @@ function updateTotals() {
     });
 
     tfoot.querySelector(".team-runs-total").textContent = teamRunTotal;
+
+    // Updating errors total
+    const inningErrorTotals = Array(9).fill(0);
+    let teamErrorTotal = 0;
+
+    rows.forEach(row => {
+        const atBats = row.querySelectorAll(".at-bat");
+        atBats.forEach((cell, i) => {
+            if (cell.dataset.hit === "E") {
+                inningErrorTotals[i] += 1;
+                teamErrorTotal += 1;
+            }
+        });
+    });
+
+    const inningErrorCells = tfoot.querySelectorAll(".team-errors .inning-error-total");
+    inningErrorCells.forEach((cell, i) => {
+        cell.textContent = inningErrorTotals[i];
+    });
+
+    tfoot.querySelector(".team-errors-total").textContent = teamErrorTotal;
 }
 
 // Updating the gamestate
@@ -218,7 +346,7 @@ function saveState() {
     try {
         const rows = Array.from(document.querySelectorAll("tbody tr"));
 
-        // Collect hits per player per inning
+        // Collect hits/errors per player per inning
         const hits = rows.map(row => {
             const cells = Array.from(row.querySelectorAll(".at-bat"));
             return cells.map(cell => cell.dataset.hit || "");
@@ -231,9 +359,17 @@ function saveState() {
         const playerTotals = rows.map(row =>
             Number((row.querySelector(".player-hits")?.textContent || "0").trim()) || 0
         );
-        const inningTotals = Array.from(document.querySelectorAll("tfoot .inning-total"))
+        const inningHitTotals = Array.from(document.querySelectorAll("tfoot .team-hits .inning-total"))
             .map(td => Number((td.textContent || "0").trim()) || 0);
-        const teamTotal = Number((document.querySelector("tfoot .team-hits-total")?.textContent || "0").trim()) || 0;
+        const teamHitTotal = Number((document.querySelector("tfoot .team-hits-total")?.textContent || "0").trim()) || 0;
+
+        const inningRunTotals = Array.from(document.querySelectorAll("tfoot .team-runs .inning-run-total"))
+            .map(td => Number((td.textContent || "0").trim()) || 0);
+        const teamRunTotal = Number((document.querySelector("tfoot .team-runs-total")?.textContent || "0").trim()) || 0;
+
+        const inningErrorTotals = Array.from(document.querySelectorAll("tfoot .team-errors .inning-error-total"))
+            .map(td => Number((td.textContent || "0").trim()) || 0);
+        const teamErrorTotal = Number((document.querySelector("tfoot .team-errors-total")?.textContent || "0").trim()) || 0;
 
         // Collect player names
         const playerNames = rows.map((row, i) => {
@@ -261,8 +397,12 @@ function saveState() {
             hits,
             totals: {
                 playerTotals,
-                inningTotals,
-                teamTotal
+                inningHitTotals,
+                teamHitTotal,
+                inningRunTotals,
+                teamRunTotal,
+                inningErrorTotals,
+                teamErrorTotal
             },
             playerNames,
             teamName,
@@ -275,7 +415,6 @@ function saveState() {
         console.error("Failed to save scorecard state:", err);
     }
 }
-
 
 // Allows for loading scorecard from last session
 function loadState() {
@@ -312,6 +451,18 @@ function loadState() {
 
         // Update totals after restoring hits
         updateTotals();
+
+        // Restore errors totals in footer
+        if (payload.totals?.inningErrorTotals) {
+            const inningErrorCells = document.querySelectorAll("tfoot .team-errors .inning-error-total");
+            inningErrorCells.forEach((cell, i) => {
+                cell.textContent = payload.totals.inningErrorTotals[i] || 0;
+            });
+        }
+        if (payload.totals?.teamErrorTotal !== undefined) {
+            const teamErrorCell = document.querySelector("tfoot .team-errors-total");
+            if (teamErrorCell) teamErrorCell.textContent = payload.totals.teamErrorTotal;
+        }
 
         // Restore current batter highlight
         if (payload.lastBatter) {

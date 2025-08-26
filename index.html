@@ -175,8 +175,8 @@
             </tbody>
             <tfoot>
                 <tr class="team-hits">
-                    <td class="teamNameInput" contenteditable="true" rowspan="2">Team Name</td>
-                    <td class="rowLabel">H</td>
+                    <td class="teamNameInput" contenteditable="true" rowspan="3">Team Name</td>
+                    <td class="rowLabel">Hits</td>
                     <td class="inning-total">0</td>  <!-- Inning 1 -->
                     <td class="inning-total">0</td>  <!-- Inning 2 -->
                     <td class="inning-total">0</td>  <!-- Inning 3 -->
@@ -189,7 +189,7 @@
                     <td class="team-hits-total">0</td> <!-- Total team hits -->
                 </tr>
                 <tr class="team-runs">
-                    <td class="rowLabel">R</td>
+                    <td class="rowLabel">Runs</td>
                     <td class="inning-run-total">0</td>  <!-- Inning 1 -->
                     <td class="inning-run-total">0</td>  <!-- Inning 2 -->
                     <td class="inning-run-total">0</td>  <!-- Inning 3 -->
@@ -200,6 +200,19 @@
                     <td class="inning-run-total">0</td>  <!-- Inning 8 -->
                     <td class="inning-run-total">0</td>  <!-- Inning 9 -->
                     <td class="team-runs-total">0</td> <!-- Total team runs -->
+                </tr>
+                <tr class="team-errors">
+                    <td class="rowLabel">Errors</td>
+                    <td class="inning-error-total">0</td>  <!-- Inning 1 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 2 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 3 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 4 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 5 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 6 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 7 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 8 -->
+                    <td class="inning-error-total">0</td>  <!-- Inning 9 -->
+                    <td class="team-errors-total">0</td> <!-- Total errors -->
                 </tr>
             </tfoot>
         </table>
@@ -217,6 +230,7 @@
             <option value="LO">LO</option>
             <option value="FO">FO</option>
             <option value="GO">GO</option>
+            <option value="E">E</option>
         </select>
         <div>
             <button id="modalOk">OK</button>
