@@ -10,13 +10,34 @@ const gameState = [];
 // Catch player names from input
 const playerNames = Array.from({ length: 10 }, (_, i) => `Player ${i + 1}`);
 
+// Tracking outs per inning
+const inningOuts = Array(9).fill(0);
+
 // Initialize it for 9 players and 9 innings
 for(let i = 0; i < 9; i++){
     gameState[i] = Array(9).fill("");
 }
 
+// Function for recording outs
+function recordOut(cell, inningIndex) {
+    // Increment outs count
+    inningOuts[inningIndex] = (inningOuts[inningIndex] || 0) + 1;
+
+    const svg = cell.querySelector("svg");
+    if (!svg) return;
+
+    const circle = svg.querySelector("circle");
+    const text = svg.querySelector(".outs-text");
+
+    if (circle && text) {
+        circle.setAttribute("opacity", "1");
+        text.setAttribute("opacity", "1");
+        text.textContent = inningOuts[inningIndex];
+    }
+}
+
 // Changes diamond based on input
-function updateBases(svg, hit) {
+function updateBases(svg, hit, cell) {
     // Reset all paths and remove previous text
     svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
     let text = svg.querySelector(".hit-text");
@@ -56,7 +77,7 @@ function updateBases(svg, hit) {
         case "LO":
         case "FO":
         case "GO":
-            text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
             text.setAttribute("x", "25");
             text.setAttribute("y", "27");
             text.setAttribute("font-size", "20");
@@ -66,9 +87,17 @@ function updateBases(svg, hit) {
             text.textContent = hit;
             text.classList.add("hit-text");
             svg.appendChild(text);
+
+            if (!cell) {
+                console.warn("Cell not provided for out-type hit");
+                break;
+            }
+
+            // Track outs per inning
+            const row = cell.closest("tr");
+            const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
+            recordOut(cell, inningIndex);
             break;
-        default:
-            console.warn("Unknown outcome:", hit);
     }
 }
 
@@ -85,7 +114,7 @@ function createOutcomeDropdown(cell) {
         if (hit) {
             cell.dataset.hit = hit;
             const svg = cell.querySelector("svg");
-            updateBases(svg, hit);
+            updateBases(svg, hit, cell); // pass cell here
 
             const row = cell.closest("tr");
             const playerIndex = [...row.parentNode.children].indexOf(row);
@@ -226,9 +255,8 @@ function loadState() {
             cells.forEach((cell, inningIndex) => {
                 const hit = hits[playerIndex]?.[inningIndex] || "";
                 if (hit) {
-                    cell.dataset.hit = hit;
-                    const svg = cell.querySelector("svg");
-                    if (svg) updateBases(svg, hit);
+                    cell.dataset.hit = hit;   
+                    updateBases(cell.querySelector("svg"), hit, cell);
                 }
             });
         });
@@ -280,9 +308,9 @@ document.getElementById("modalOk").addEventListener("click", () => {
     const select = document.getElementById("outcomeSelect");
     const hit = select.value;
     if (hit) {
-        currentCell.dataset.hit = hit;
+        currentCell.dataset.hit = hit;  
         const svg = currentCell.querySelector("svg");
-        updateBases(svg, hit);
+        updateBases(svg, hit, currentCell);
 
         const row = currentCell.closest("tr");
         const playerIndex = [...row.parentNode.children].indexOf(row);
@@ -291,8 +319,9 @@ document.getElementById("modalOk").addEventListener("click", () => {
         updateGameState(playerIndex, inningIndex, hit);
         updateTotals();
         saveState();
+
+        hideModal();
     }
-    hideModal();
 });
 
 document.getElementById("modalCancel").addEventListener("click", hideModal);
@@ -304,13 +333,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     atBatCells.forEach(cell => {
         cell.innerHTML = `
-            <svg width="60" height="50" viewBox="0 0 60 50">
+            <svg width="70" height="50" viewBox="0 0 70 50">
                 <polygon points="25,0 50,25 25,50 0,25"
                     fill="white" stroke="black" stroke-width="1"/>
                 <path d="M25,50 L50,25" stroke="black" stroke-width="4" fill="none" class="path-home-first" opacity="0.2"/>
                 <path d="M50,25 L25,0"  stroke="black" stroke-width="4" fill="none" class="path-first-second" opacity="0.2"/>
                 <path d="M25,0 L0,25"   stroke="black" stroke-width="4" fill="none" class="path-second-third" opacity="0.2"/>
                 <path d="M0,25 L25,50"  stroke="black" stroke-width="4" fill="none" class="path-third-home" opacity="0.2"/>
+                <circle cx="61" cy="8" r="7" fill="none" stroke="red" stroke-width="2" opacity="0"/>
+                <text x="61" y="9" font-size="8" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="red" class="outs-text" opacity="0">0</text>
             </svg>
         `;
 
@@ -379,8 +410,20 @@ if (teamNameInput) {
                         // Remove any hit text
                         const text = svg.querySelector(".hit-text");
                         if (text) text.remove();
+
+                        // Reset outs circle and text
+                        const outsCircle = svg.querySelector("circle");
+                        const outsText = svg.querySelector(".outs-text");
+                        if (outsCircle) outsCircle.setAttribute("opacity", "0");
+                        if (outsText) {
+                            outsText.setAttribute("opacity", "0");
+                            outsText.textContent = "0";
+                        }
                     }
                 });
+
+                // Reset inning outs counter
+                inningOuts.fill(0);
 
                 // Reset player names
                 document.querySelectorAll(".player-name").forEach((cell, i) => {
