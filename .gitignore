@@ -17,3 +17,6 @@ Thumbs.db
 # Compiled files (if any build system is used)
 dist/
 build/
+
+# Internal documentation (not part of releases)
+doc/
