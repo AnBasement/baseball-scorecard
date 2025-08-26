@@ -7,14 +7,13 @@ const validHits = ["1B", "2B", "3B", "HR", "OUT"];
 // Empty gameState var to start
 const gameState = [];
 
+// Catch player names from input
+const playerNames = Array.from({ length: 10 }, (_, i) => `Player ${i + 1}`);
+
 // Initialize it for 9 players and 9 innings
 for(let i = 0; i < 9; i++){
     gameState[i] = Array(9).fill("");
 }
-
-// ==========================
-// Helper Functions
-// ==========================
 
 function updateBases(svg, hit) {
     // Reset all paths to dim
@@ -91,16 +90,32 @@ function updateGameState(playerIndex, inningIndex, hit){
 function saveState() {
     try {
         const rows = Array.from(document.querySelectorAll("tbody tr"));
+
+        // Collect hits per player per inning
         const hits = rows.map(row => {
             const cells = Array.from(row.querySelectorAll(".at-bat"));
             return cells.map(cell => cell.dataset.hit || "");
         });
 
+        // Ensure totals are up-to-date
         updateTotals();
 
-        const playerTotals = rows.map(row => Number((row.querySelector(".player-hits")?.textContent || "0").trim()) || 0);
-        const inningTotals = Array.from(document.querySelectorAll("tfoot .inning-total")).map(td => Number((td.textContent || "0").trim()) || 0);
+        // Collect totals
+        const playerTotals = rows.map(row =>
+            Number((row.querySelector(".player-hits")?.textContent || "0").trim()) || 0
+        );
+        const inningTotals = Array.from(document.querySelectorAll("tfoot .inning-total"))
+            .map(td => Number((td.textContent || "0").trim()) || 0);
         const teamTotal = Number((document.querySelector("tfoot .team-hits-total")?.textContent || "0").trim()) || 0;
+
+        // Collect player names
+        const playerNames = rows.map((row, i) => {
+            const cell = row.querySelector(`#playerName-${i}`);
+            return cell?.textContent?.trim() || `Player ${i + 1}`;
+        });
+
+        // Collect team name
+        const teamName = document.querySelector(".teamNameInput")?.textContent?.trim() || "";
 
         const payload = {
             version: 1,
@@ -110,7 +125,9 @@ function saveState() {
                 playerTotals,
                 inningTotals,
                 teamTotal
-            }
+            },
+            playerNames,
+            teamName
         };
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -125,9 +142,11 @@ function loadState() {
         if (!saved) return;
 
         const payload = JSON.parse(saved);
-        const hits = payload.hits;
+        const hits = payload.hits || [];
 
         const rows = document.querySelectorAll("tbody tr");
+
+        // Restore hits and diamond visualization
         rows.forEach((row, playerIndex) => {
             const cells = row.querySelectorAll(".at-bat");
             cells.forEach((cell, inningIndex) => {
@@ -140,6 +159,17 @@ function loadState() {
             });
         });
 
+        // Restore player names
+        rows.forEach((row, i) => {
+            const cell = row.querySelector(`#playerName-${i}`);
+            if (cell) cell.textContent = payload.playerNames?.[i] || `Player ${i + 1}`;
+        });
+
+        // Restore team name
+        const teamInput = document.querySelector(".teamNameInput");
+        if (teamInput) teamInput.textContent = payload.teamName || "";
+
+        // Update totals after restoring hits
         updateTotals();
     } catch (err) {
         console.error("Failed to load scorecard state:", err);
@@ -166,12 +196,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Load saved state if any
     loadState();
 
-    // Add click handlers
+    // Add click handlers for at-bats
     atBatCells.forEach(cell => {
         cell.addEventListener("click", () => {
-            if (cell.textContent.trim() !== "") {
+            if (cell.dataset.hit) { // already has a hit recorded
                 const overwrite = confirm("This cell already has a value. Do you want to overwrite it?");
-                if (!overwrite) return;
+                if (!overwrite) return; // stop further processing
             }
 
             const hit = checkValidHit();
@@ -188,6 +218,65 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateTotals();
                 saveState();
             }
-        });
+        }); 
+    }); 
+
+// Add listeners for player names
+document.querySelectorAll(".player-name").forEach(cell => {
+    cell.addEventListener("input", () => {
+        if (!cell.textContent.trim()) {
+            cell.classList.add("invalid");
+        } else {
+            cell.classList.remove("invalid");
+        }
+        saveState();
     });
 });
+
+// Add listener for team name
+const teamNameInput = document.querySelector(".teamNameInput");
+if (teamNameInput) {
+    teamNameInput.addEventListener("input", () => {
+        if (!teamNameInput.textContent.trim()) {
+            teamNameInput.classList.add("invalid");
+        } else {
+            teamNameInput.classList.remove("invalid");
+        }
+        saveState();
+    });
+}
+
+
+    // Reset/clear button functionality
+    const resetButton = document.getElementById("resetScorecard");
+    if (resetButton) {
+        resetButton.addEventListener("click", () => {
+            if (confirm("Are you sure you want to reset the scorecard?")) {
+                localStorage.removeItem(STORAGE_KEY);
+
+                // Clear all at-bat cells
+                document.querySelectorAll(".at-bat").forEach(cell => {
+                    cell.dataset.hit = "";
+                    const svg = cell.querySelector("svg");
+                    if (svg) svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
+                });
+
+                // Reset player names
+                document.querySelectorAll(".player-name").forEach((cell, i) => {
+                    cell.textContent = `Player ${i + 1}`;
+                    cell.classList.remove("invalid");
+                });
+
+                // Reset team name
+                const teamInput = document.querySelector(".teamNameInput");
+                if (teamInput) {
+                    teamInput.textContent = "";
+                    teamInput.classList.remove("invalid");
+                }
+
+                // Reset totals
+                updateTotals();
+            }
+        });
+    }
+}); 

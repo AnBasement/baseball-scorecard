@@ -1,20 +1,58 @@
 body {
-    background-color: rgb(255, 255, 255);
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 table {
-  width: 1750px;
+    width: 100%;
+    max-width: 1200px; /* keeps it readable on smaller screens */
+    margin: 0 auto; /* centers table horizontally */
+    border-collapse: collapse;
+    table-layout: fixed; /* ensures even column widths */
 }
 
 table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
 }
 
 tr {
-    height: 90px;
+    height: 70px; /* slightly smaller row height for readability */
 }
 
 tr:nth-child(even) {
-  background-color: #e2e2e2f3;
+    background-color: #e2e2e2f3;
+}
+
+input.player-name, input.teamNameInput {
+    width: 90%;
+    padding: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input.invalid {
+    border: 2px solid red;
+}
+
+.controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#resetScorecard {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
 }

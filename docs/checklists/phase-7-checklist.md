@@ -4,20 +4,20 @@
 
 ### ✅ Checklist
 
-- [ ] Player & Team Names
-  - [ ] Allow user to enter lineup/player names
-  - [ ] Allow user to set team name (bottom-left cell)
-  - [ ] Validate input (no empty names)
+- [x] Player & Team Names
+  - [x] Allow user to enter lineup/player names
+  - [x] Allow user to set team name (bottom-left cell)
+  - [x] Validate input (no empty names)
 
-- [ ] Basic Game Recording
-  - [ ] Record at-bats (1B, 2B, 3B, HR, OUT)
-  - [ ] Totals update correctly (per player, per inning, per team)
+- [x] Basic Game Recording
+  - [x] Record at-bats (1B, 2B, 3B, HR, OUT)
+  - [x] Totals update correctly (per player, per inning, per team)
 
-- [ ] User Experience
-  - [ ] Confirm before overwriting an existing hit
-  - [ ] Clear/reset button to start a new game
+- [x] User Experience
+  - [x] Confirm before overwriting an existing hit
+  - [x] Clear/reset button to start a new game
 
-- [ ] First Release Prep
-  - [ ] Clean up UI (basic alignment, spacing)
-  - [ ] Version/tag as **v0.1.0**
-  - [ ] Update README with usage instructions
+- [x] First Release Prep
+  - [x] Clean up UI (basic alignment, spacing)
+  - [x] Version/tag as **v0.1.0**
+  - [x] Update README with usage instructions

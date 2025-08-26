@@ -8,6 +8,12 @@
         <title>Interactive Baseball Scorecard</title>
     </head>
     <body>
+        <h1>AnBasement's Baseball Scorecard</h1>
+
+        <div class="controls">
+            <button id="resetScorecard">Reset Scorecard</button>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -26,139 +32,139 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Player1</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-0">Player 1</td>
+                    <td class="at-bat" data-player="0" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="0" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="0" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="0" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="0" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="0" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="0" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="0" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="0" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player2</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-1">Player 2</td>
+                    <td class="at-bat" data-player="1" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="1" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="1" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="1" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="1" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="1" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="1" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="1" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="1" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player3</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-2">Player 3</td>
+                    <td class="at-bat" data-player="2" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="2" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="2" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="2" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="2" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="2" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="2" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="2" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="2" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player4</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-3">Player 4</td>
+                    <td class="at-bat" data-player="3" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="3" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="3" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="3" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="3" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="3" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="3" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="3" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="3" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player5</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-4">Player 5</td>
+                    <td class="at-bat" data-player="4" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="4" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="4" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="4" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="4" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="4" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="4" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="4" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="4" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player6</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-5">Player 6</td>
+                    <td class="at-bat" data-player="5" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="5" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="5" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="5" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="5" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="5" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="5" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="5" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="5" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player7</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-6">Player 7</td>
+                    <td class="at-bat" data-player="6" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="6" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="6" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="6" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="6" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="6" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="6" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="6" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="6" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player8</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-7">Player 8</td>
+                    <td class="at-bat" data-player="7" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="7" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="7" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="7" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="7" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="7" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="7" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="7" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="7" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player9</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-8">Player 9</td>
+                    <td class="at-bat" data-player="8" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="8" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="8" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="8" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="8" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="8" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="8" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="8" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="8" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
                 <tr>
-                    <td>Player10</td>
-                    <td class="at-bat"></td>  <!-- Inning 1 -->
-                    <td class="at-bat"></td>  <!-- Inning 2 -->
-                    <td class="at-bat"></td>  <!-- Inning 3 -->
-                    <td class="at-bat"></td>  <!-- Inning 4 -->
-                    <td class="at-bat"></td>  <!-- Inning 5 -->
-                    <td class="at-bat"></td>  <!-- Inning 6 -->
-                    <td class="at-bat"></td>  <!-- Inning 7 -->
-                    <td class="at-bat"></td>  <!-- Inning 8 -->
-                    <td class="at-bat"></td>  <!-- Inning 9 -->
+                    <td class="player-name" contenteditable="true" id="playerName-9">Player 10</td>
+                    <td class="at-bat" data-player="9" data-inning="0"></td>  <!-- Inning 1 -->
+                    <td class="at-bat" data-player="9" data-inning="1"></td>  <!-- Inning 2 -->
+                    <td class="at-bat" data-player="9" data-inning="2"></td>  <!-- Inning 3 -->
+                    <td class="at-bat" data-player="9" data-inning="3"></td>  <!-- Inning 4 -->
+                    <td class="at-bat" data-player="9" data-inning="4"></td>  <!-- Inning 5 -->
+                    <td class="at-bat" data-player="9" data-inning="5"></td>  <!-- Inning 6 -->
+                    <td class="at-bat" data-player="9" data-inning="6"></td>  <!-- Inning 7 -->
+                    <td class="at-bat" data-player="9" data-inning="7"></td>  <!-- Inning 8 -->
+                    <td class="at-bat" data-player="9" data-inning="8"></td>  <!-- Inning 9 -->
                     <td class="player-hits">0</td>  <!-- Total hits -->
                 </tr>
             </tbody>
             <tfoot>
                 <tr class="team-hits">
-                    <td>TEAM NAME</td>
+                    <td class="teamNameInput" contenteditable="true">Team Name</td>
                     <td class="inning-total">0</td>  <!-- Inning 1 -->
                     <td class="inning-total">0</td>  <!-- Inning 2 -->
                     <td class="inning-total">0</td>  <!-- Inning 3 -->
@@ -170,8 +176,7 @@
                     <td class="inning-total">0</td>  <!-- Inning 9 -->
                     <td class="team-hits-total">0</td> <!-- Total team hits -->
                 </tr>
-                </tfoot>
-
+            </tfoot>
         </table>
     </body>
 </html>

@@ -8,14 +8,14 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 1: Project Setup  
 **Goal:** A working project folder you can open in a browser.  
-- [ ] Create project folder `baseball-scorecard/`.  
+- Create project folder `baseball-scorecard/`.  
   - Files: `index.html`, `style.css`, `script.js`.  
-- [ ] Link CSS and JS in `index.html`:  
+- Link CSS and JS in `index.html`:  
 
     <link rel="stylesheet" href="style.css">  
     <script src="script.js" defer></script>  
 
-- [ ] Test:  
+- Test:  
   - Add text in `index.html`.  
   - Change background in CSS.  
   - Log something in JS and confirm it shows in browser DevTools.  
@@ -26,13 +26,13 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 2: Build the Scorecard Grid  
 **Goal:** A table layout resembling a scorecard.  
-- [ ] Add a `<table>` in HTML.  
+- Add a `<table>` in HTML.  
   - Header row: innings 1–9 + “Total”.  
   - 10 rows: 1 column for player names, 9 for innings, 1 for total.  
-- [ ] Style with CSS:  
+- Style with CSS:  
   - Borders, fixed cell width/height.  
   - Alternate row shading for readability.  
-- [ ] Test:  
+- Test:  
   - Does the table show up neatly?  
   - Do you see 9 innings × 9 players?  
 
@@ -42,12 +42,12 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 3: Add Interactive Cells  
 **Goal:** Each cell can record a hit.  
-- [ ] Give each cell a `class="atbat"`.  
-- [ ] In JS:  
+- Give each cell a `class="atbat"`.  
+- In JS:  
   - Select all cells with `document.querySelectorAll(".atbat")`.  
   - Attach an `onclick` event.  
   - On click, open a small menu (e.g., a `prompt` at first).  
-- [ ] Test:  
+- Test:  
   - Clicking a cell pops up `"Enter hit: 1B, 2B, 3B, HR"`.  
   - The cell displays your choice.  
 
@@ -57,14 +57,14 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 4: Add Diamond Visualization  
 **Goal:** Show a mini baseball diamond in each cell.  
-- [ ] Add an SVG diamond (a square rotated 45°) inside each cell.  
-- [ ] Four smaller shapes represent bases.  
-- [ ] In JS, when recording a hit:  
+- Add an SVG diamond (a square rotated 45°) inside each cell.  
+- Four smaller shapes represent bases.  
+- In JS, when recording a hit:  
   - Fill bases according to the hit.  
     - `1B` → first base filled.  
     - `2B` → first + second filled.  
     - `HR` → all bases filled.  
-- [ ] Test:  
+- Test:  
   - Record each hit type and confirm bases highlight correctly.  
 
 ✅ Each at-bat cell resembles a real scorecard box.  
@@ -73,9 +73,9 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 5: Totals & Validation  
 **Goal:** Keep track of totals across innings.  
-- [ ] After recording a hit, update team’s total runs in the “Total” column.  
-- [ ] Prevent overwriting without confirmation.  
-- [ ] Test:  
+- After recording a hit, update team’s total runs in the “Total” column.  
+- Prevent overwriting without confirmation.  
+- Test:  
   - Enter multiple hits → totals update.  
   - Overwriting prompts for confirmation.  
 
@@ -85,9 +85,9 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ### 🔹 Phase 6: Save & Load (Optional Early Feature)  
 **Goal:** Don’t lose progress when refreshing.  
-- [ ] Use `localStorage` to save current scorecard state.  
-- [ ] On page load, reload state into the grid.  
-- [ ] Test:  
+- Use `localStorage` to save current scorecard state.  
+- On page load, reload state into the grid.  
+- Test:  
   - Record a few hits.  
   - Refresh page → state persists.  
 
@@ -95,13 +95,15 @@ This roadmap was created by AI to serve as a guide of sorts. It might very well 
 
 ---
 
-### 🔹 Phase 7: Polish & Expand  
-**Future ideas:**  
-- Input for player lineup names.  
-- More notations (outs, strikeouts, walks, errors, stolen bases, etc.).  
-- Undo/redo actions.  
-- Export completed scorecard as an image or PDF.  
-- Multiplayer or online version with Python backend (Flask + SQLite).  
-- Progressive Web App (PWA) support for mobile use.  
+### 🔹 Phase 7: First Release (v0.1.0)  
+Focus on delivering the first functional version of the scorecard.  
+This release should allow users to:  
+- Enter and save hits per at-bat.  
+- View totals per player, per inning, and per team.  
+- Input and save player lineup names.  
+- Input and save the team name.  
+- Refresh the page without losing data (state persistence).  
+
+✅ A minimal but fully working digital scorecard, ready for release as **v0.1.0**.  
 
 ---

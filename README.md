@@ -25,14 +25,15 @@ As for the code itself, I'm writing it all myself, but I will occasionally use A
 
 ## 🚀 How to run  
 
-1. Clone this repo:  
+1. **Clone this repo:**  
+   ```bash
    git clone https://github.com/AnBasement/baseball-scorecard.git  
-   cd baseball-scorecard  
-
-2. Open index.html in your browser.  
-   - No build tools or server required — just open the file locally.  
-
-3. Start keeping score!  
+   cd baseball-scorecard
+   ```
+   
+2. **Open the scorecard:**  
+   - Open `index.html` in your browser.  
+   - No build tools or server required — just open the file locally.
 
 ---
 

@@ -4,6 +4,16 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.1.0] - 26-08-2025
+### Added
+- Player and team names can now be added to column 1
+
+### Changed
+- Updated CSS for a more dynamic table with some coloring
+- README updated
+
+---
+
 ## [0.0.6] - 26-08-2025
 ### Added
 - LocalStorage support to save and load across browser refresh
