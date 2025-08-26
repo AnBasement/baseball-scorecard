@@ -4,7 +4,7 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
-## [0.2.1] - DD-MM-YYYY
+## [0.2.1] - 26-08-2025
 ### Added
 - Row for counting team and inning runs
   - Currently only counting HRs as runs as baserunner progression is currently not implemented
