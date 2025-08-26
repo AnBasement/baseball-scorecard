@@ -4,6 +4,18 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.2.0] - 26-08-2025
+### Added
+- Interactive at-bat cells with dropdown/context menu for outcome selection:
+  - `1B, 2B, 3B, HR, BB, K, FO, GO, HBP`
+- Diamond visualization updates per outcome
+  - HR fills the entire diamond
+  - BB/HBP displayed bottom-right of diamond
+  - K, LO, FO, GO centered in diamond
+- Automatic calculation of hit totals (currently only counting 1B, 2B, 3B, HR)
+
+---
+
 ## [0.1.0] - 26-08-2025
 ### Added
 - Player and team names can now be added to column 1
