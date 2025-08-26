@@ -35,6 +35,11 @@ tr:nth-child(even) {
     background-color: #e2e2e2f3;
 }
 
+tfoot {
+    border-top: 6px double black;
+}
+
+
 input.player-name, input.teamNameInput {
     width: 90%;
     padding: 5px;

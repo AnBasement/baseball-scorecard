@@ -100,35 +100,58 @@ function createOutcomeDropdown(cell) {
     cell.appendChild(select);
 }
 
-// Updates the totals for hits
+// Updates the totals for hits and runs
 function updateTotals() {
     const rows = document.querySelectorAll("tbody tr"); // Select player rows
-    const tfoot = document.querySelector("tfoot tr.team-hits"); // Select team total row
-    const inningTotals = Array(9).fill(0);
-    let teamTotal = 0;
+    const tfoot = document.querySelector("tfoot"); // footer element
+
+    // Updating hits total
+    const inningHitTotals = Array(9).fill(0);
+    let teamHitTotal = 0;
 
     rows.forEach(row => {
         const atBats = row.querySelectorAll(".at-bat");
-        let playerTotal = 0;
+        let playerHitTotal = 0;
 
         atBats.forEach((cell, i) => {
             const hit = cell.dataset.hit;
             if (["1B", "2B", "3B", "HR"].includes(hit)) {
-                playerTotal += 1;
-                inningTotals[i] += 1;
+                playerHitTotal += 1;
+                inningHitTotals[i] += 1;
             }
         });
 
-        row.querySelector(".player-hits").textContent = playerTotal;
-        teamTotal += playerTotal;
+        row.querySelector(".player-hits").textContent = playerHitTotal;
+        teamHitTotal += playerHitTotal;
     });
 
-    const inningCells = tfoot.querySelectorAll(".inning-total");
-    inningCells.forEach((cell, i) => {
-        cell.textContent = inningTotals[i];
+    const inningHitCells = tfoot.querySelectorAll(".team-hits .inning-total");
+    inningHitCells.forEach((cell, i) => {
+        cell.textContent = inningHitTotals[i];
     });
 
-    tfoot.querySelector(".team-hits-total").textContent = teamTotal;
+    tfoot.querySelector(".team-hits-total").textContent = teamHitTotal;
+
+    // Updating runs total
+    const inningRunTotals = Array(9).fill(0);
+    let teamRunTotal = 0;
+
+    rows.forEach(row => {
+        const atBats = row.querySelectorAll(".at-bat");
+        atBats.forEach((cell, i) => {
+            if (cell.dataset.hit === "HR") {
+                inningRunTotals[i] += 1;
+                teamRunTotal += 1;
+            }
+        });
+    });
+
+    const inningRunCells = tfoot.querySelectorAll(".team-runs .inning-run-total");
+    inningRunCells.forEach((cell, i) => {
+        cell.textContent = inningRunTotals[i];
+    });
+
+    tfoot.querySelector(".team-runs-total").textContent = teamRunTotal;
 }
 
 // Updating the gamestate

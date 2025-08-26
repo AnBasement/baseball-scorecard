@@ -18,6 +18,7 @@
             <thead>
                 <tr>
                     <th>Batter</th>
+                    <th>Pos</th>
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
@@ -33,6 +34,7 @@
             <tbody>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-0">Player 1</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="0" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="0" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="0" data-inning="2"></td>  <!-- Inning 3 -->
@@ -46,6 +48,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-1">Player 2</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="1" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="1" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="1" data-inning="2"></td>  <!-- Inning 3 -->
@@ -59,6 +62,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-2">Player 3</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="2" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="2" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="2" data-inning="2"></td>  <!-- Inning 3 -->
@@ -72,6 +76,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-3">Player 4</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="3" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="3" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="3" data-inning="2"></td>  <!-- Inning 3 -->
@@ -85,6 +90,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-4">Player 5</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="4" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="4" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="4" data-inning="2"></td>  <!-- Inning 3 -->
@@ -98,6 +104,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-5">Player 6</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="5" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="5" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="5" data-inning="2"></td>  <!-- Inning 3 -->
@@ -111,6 +118,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-6">Player 7</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="6" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="6" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="6" data-inning="2"></td>  <!-- Inning 3 -->
@@ -124,6 +132,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-7">Player 8</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="7" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="7" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="7" data-inning="2"></td>  <!-- Inning 3 -->
@@ -137,6 +146,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-8">Player 9</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="8" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="8" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="8" data-inning="2"></td>  <!-- Inning 3 -->
@@ -150,6 +160,7 @@
                 </tr>
                 <tr>
                     <td class="player-name" contenteditable="true" id="playerName-9">Player 10</td>
+                    <td></td> <!-- To be used for position data -->
                     <td class="at-bat" data-player="9" data-inning="0"></td>  <!-- Inning 1 -->
                     <td class="at-bat" data-player="9" data-inning="1"></td>  <!-- Inning 2 -->
                     <td class="at-bat" data-player="9" data-inning="2"></td>  <!-- Inning 3 -->
@@ -164,7 +175,8 @@
             </tbody>
             <tfoot>
                 <tr class="team-hits">
-                    <td class="teamNameInput" contenteditable="true">Team Name</td>
+                    <td class="teamNameInput" contenteditable="true" rowspan="2">Team Name</td>
+                    <td class="rowLabel">H</td>
                     <td class="inning-total">0</td>  <!-- Inning 1 -->
                     <td class="inning-total">0</td>  <!-- Inning 2 -->
                     <td class="inning-total">0</td>  <!-- Inning 3 -->
@@ -175,6 +187,19 @@
                     <td class="inning-total">0</td>  <!-- Inning 8 -->
                     <td class="inning-total">0</td>  <!-- Inning 9 -->
                     <td class="team-hits-total">0</td> <!-- Total team hits -->
+                </tr>
+                <tr class="team-runs">
+                    <td class="rowLabel">R</td>
+                    <td class="inning-run-total">0</td>  <!-- Inning 1 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 2 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 3 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 4 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 5 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 6 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 7 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 8 -->
+                    <td class="inning-run-total">0</td>  <!-- Inning 9 -->
+                    <td class="team-runs-total">0</td> <!-- Total team runs -->
                 </tr>
             </tfoot>
         </table>
