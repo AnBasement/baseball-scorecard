@@ -11,15 +11,18 @@ As for the code itself, I'm writing it all myself, but I will occasionally use A
 
 ## 🎯 Features (Current & Planned)  
 
-⬜ Web-based (runs in your browser)  
-⬜ Traditional scorecard layout (players × innings)  
-⬜ Record basic hits (1B, 2B, 3B, HR)  
-⬜ Mini-diamond visualization for base running  
-⬜ Automatic run totals per inning & team  
-⬜ Persistent storage (save & load games)  
-⬜ Advanced notations (walks, strikeouts, errors, stolen bases, etc.)  
+✅ Web-based (runs in your browser)  
+✅ Traditional scorecard layout (players × innings)  
+✅ Record basic hits (1B, 2B, 3B, HR)  
+✅ Mini-diamond visualization for base running  
+✅ Automatic run totals per inning & team  
+✅ Persistent storage (save & load games)  
+⬜ Core scorekeeping (outs tracker, runs scored, RBIs, errors etc.)
+⬜ Advanced scorekeeping (baserunner progression, pitch tracking, two-team support etc.)
+⬜ Improved UX (dynamic UI, keyboard shortcuts, styling & layout options)
 ⬜ Export completed scorecard (image/PDF)  
 ⬜ Mobile-friendly Progressive Web App (PWA)  
+⬜ Data analytics (tracking player and season stats etc.)
 
 ---
 
@@ -41,21 +44,12 @@ As for the code itself, I'm writing it all myself, but I will occasionally use A
 
 baseball-scorecard/  
 │  
-├── docs/                     → Documentation files  
-│   ├── checklists/           → Markdown checklists for each phase (phase-1-checklist.md … phase-7-checklist.md)  
-│   └── ROADMAP.md            → Detailed development roadmap  
 ├── index.html                → Main HTML file  
 ├── style.css                 → Styling for the scorecard  
 ├── script.js                 → JavaScript logic and interactivity  
 ├── README.md                 → Project overview  
 ├── CHANGELOG.md              → Version history and updates  
 └── LICENSE                   → Project license
-
----
-
-## 📌 Roadmap  
-
-A more detailed plan for the progress of the project can be found in ROADMAP.md.  
 
 ---
 
