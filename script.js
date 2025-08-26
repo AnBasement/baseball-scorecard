@@ -20,8 +20,8 @@ for(let i = 0; i < 9; i++){
 
 // Function for recording outs
 function recordOut(cell, inningIndex) {
-    // Increment outs count
-    inningOuts[inningIndex] = (inningOuts[inningIndex] || 0) + 1;
+    // Increment outs count up to a maximum of 3
+    inningOuts[inningIndex] = Math.min((inningOuts[inningIndex] || 0) + 1, 3);
 
     const svg = cell.querySelector("svg");
     if (!svg) return;
@@ -34,6 +34,29 @@ function recordOut(cell, inningIndex) {
         text.setAttribute("opacity", "1");
         text.textContent = inningOuts[inningIndex];
     }
+}
+
+// Function highlighting the current cell
+function highlightCurrentBatter(cell) {
+    // Remove old highlight
+    document.querySelectorAll(".current-batter").forEach(el => {
+        el.classList.remove("current-batter");
+    });
+    // Add to the new active cell
+    cell.classList.add("current-batter");
+}
+
+// Function highlighting current inning
+function highlightCurrentInning(inningIndex) {
+    // Remove old inning highlights
+    document.querySelectorAll(".current-inning").forEach(el => {
+        el.classList.remove("current-inning");
+    });
+
+    // Highlight header + all cells in this inning column
+    document.querySelectorAll(`[data-inning="${inningIndex}"]`).forEach(cell => {
+        cell.classList.add("current-inning");
+    });
 }
 
 // Changes diamond based on input
@@ -123,6 +146,8 @@ function createOutcomeDropdown(cell) {
             updateGameState(playerIndex, inningIndex, hit);
             updateTotals();
             saveState();
+            highlightCurrentBatter(cell);
+            highlightCurrentInning(inningIndex);
         }
     });
     cell.innerHTML = ""; // clear previous content
@@ -219,6 +244,17 @@ function saveState() {
         // Collect team name
         const teamName = document.querySelector(".teamNameInput")?.textContent?.trim() || "";
 
+        // Collect current batter and inning highlights
+        let lastBatter = null;
+        let lastInning = null;
+        if (currentCell) {
+            const row = currentCell.closest("tr");
+            const playerIndex = [...row.parentNode.children].indexOf(row);
+            const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(currentCell);
+            lastBatter = { playerIndex, inningIndex };
+            lastInning = inningIndex;
+        }
+
         const payload = {
             version: 1,
             timestamp: new Date().toISOString(),
@@ -229,7 +265,9 @@ function saveState() {
                 teamTotal
             },
             playerNames,
-            teamName
+            teamName,
+            lastBatter,
+            lastInning
         };
 
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -237,6 +275,7 @@ function saveState() {
         console.error("Failed to save scorecard state:", err);
     }
 }
+
 
 // Allows for loading scorecard from last session
 function loadState() {
@@ -273,10 +312,27 @@ function loadState() {
 
         // Update totals after restoring hits
         updateTotals();
+
+        // Restore current batter highlight
+        if (payload.lastBatter) {
+            const batterRow = rows[payload.lastBatter.playerIndex];
+            const batterCell = batterRow.querySelectorAll(".at-bat")[payload.lastBatter.inningIndex];
+            if (batterCell) {
+                currentCell = batterCell;
+                batterCell.classList.add("current-batter");
+            }
+        }
+
+        // Restore current inning highlight
+        if (payload.lastInning !== null) {
+            highlightCurrentInning(payload.lastInning);
+        }
+
     } catch (err) {
         console.error("Failed to load scorecard state:", err);
     }
 }
+
 
 let currentCell = null;
 
@@ -319,6 +375,8 @@ document.getElementById("modalOk").addEventListener("click", () => {
         updateGameState(playerIndex, inningIndex, hit);
         updateTotals();
         saveState();
+        highlightCurrentBatter(currentCell);
+        highlightCurrentInning(currentCell.dataset.inning);
 
         hideModal();
     }
@@ -440,6 +498,11 @@ if (teamNameInput) {
 
                 // Reset totals
                 updateTotals();
+
+                // Remove all highlights
+                document.querySelectorAll(".current-batter, .current-inning").forEach(el => {
+                    el.classList.remove("current-batter", "current-inning");
+                });
             }
         });
     }

@@ -4,6 +4,16 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.2.2] - 26-08-2025
+### Added
+- Added an 'outs' tracker which increments whenever an out is selected in a cell.
+  - Is independent per inning, so counter always starts at 1 for the first out.
+  - Currently caps out at 3.
+- Highlighting active (last changed) cell and active inning column.
+  - Persists through a reload
+
+---
+
 ## [0.2.1] - 26-08-2025
 ### Added
 - Row for counting team and inning runs

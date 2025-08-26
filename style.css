@@ -92,3 +92,14 @@ input.invalid {
     background: rgba(0, 0, 0, 0.3);
     z-index: 900;
 }
+
+/* Highlighting current batter */
+.current-batter {
+  outline-offset: -3px; 
+  background-color: hwb(199 8% 10% / 0.363) !important; 
+}
+
+/* Highlighting current inning */
+.current-inning {
+  background-color: rgba(0, 123, 255, 0.08);
+}
