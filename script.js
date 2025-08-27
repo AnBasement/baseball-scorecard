@@ -96,48 +96,59 @@ function highlightCurrentInning(inningIndex) {
 }
 
 // Changes diamond based on input
-function updateBases(svg, hit, cell) {
+function updateBases(svg, hit, cell, originalHitText = null) {
+    // Only reset dynamic visuals (paths, polygon, outs)
     resetCellVisuals(svg, cell);
+
+    const polygon = svg.querySelector("polygon");
+
+    // Use originalHitText for persistent text if provided
+    const textForNotation = originalHitText || hit;
 
     switch (hit) {
         case "1B":
             showPath(svg, [".path-home-first"]);
+            addHitNotation(svg, textForNotation);
             break;
         case "2B":
             showPath(svg, [".path-home-first", ".path-first-second"]);
+            addHitNotation(svg, textForNotation);
             break;
         case "3B":
             showPath(svg, [".path-home-first", ".path-first-second", ".path-second-third"]);
+            addHitNotation(svg, textForNotation);
             break;
         case "HR":
-            const polygon = svg.querySelector("polygon");
+            if (polygon) polygon.setAttribute("fill", "black");
+            addHitNotation(svg, textForNotation);
+            break;
+
+        case "R":
             if (polygon) polygon.setAttribute("fill", "black");
             break;
+
         case "BB":
         case "HBP":
             showPath(svg, [".path-home-first"]);
-            addHitText(svg, hit, { x: 38, y: 45, size: 10, weight: "normal", anchor: "start" });
+            addHitNotation(svg, textForNotation); // smaller text handled inside addHitNotation
             break;
+
         case "E":
             showPath(svg, [".path-home-first"]);
             addHitText(svg, hit, { x: 25, y: 27, size: 20, weight: "bold", anchor: "middle" });
             break;
+
         case "K":
         case "LO":
         case "FO":
         case "GO":
             addHitText(svg, hit, { x: 25, y: 27, size: 20, weight: "bold", anchor: "middle" });
-
-            if (!cell) {
-                console.warn("Cell not provided for out-type hit");
-                break;
-            }
+            if (!cell) break;
 
             const row = cell.closest("tr");
             const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(cell);
             recordOut(cell, inningIndex);
-
-            cell.dataset.outRecorded = "true"; // mark contribution
+            cell.dataset.outRecorded = "true";
             break;
     }
 }
@@ -148,10 +159,6 @@ function updateBases(svg, hit, cell) {
 function resetCellVisuals(svg, cell) {
     // Reset paths
     svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
-
-    // Remove previous hit text
-    const prevText = svg.querySelector(".hit-text");
-    if (prevText) prevText.remove();
 
     // Reset outs indicator
     const outsCircle = svg.querySelector("circle");
@@ -174,6 +181,26 @@ function resetCellVisuals(svg, cell) {
         cell.dataset.outRecorded = "false";
     }
 }
+
+// Adds hit notation bottom right of diamond
+function addHitNotation(svg, hit, originalHit = null) {
+    // Use originalHit if provided, else hit
+    const text = originalHit || hit;
+
+    if (!svg.querySelector(".hit-text")) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        el.setAttribute("x", 68); 
+        el.setAttribute("y", 48);
+        el.setAttribute("font-size", 16);
+        el.setAttribute("font-weight", "bold");
+        el.setAttribute("text-anchor", "end");
+        el.setAttribute("dominant-baseline", "middle");
+        el.textContent = text;
+        el.classList.add("hit-text");
+        svg.appendChild(el);
+    }
+}
+
 
 // Show one or more base paths
 function showPath(svg, selectors) {
@@ -198,38 +225,7 @@ function addHitText(svg, text, { x, y, size, weight, anchor }) {
 }
 
 // Valid input selections
-const atBatOutcomes = ["1B", "2B", "3B", "HR", "BB", "K", "FO", "GO", "HBP", "E"];
-
-// Popup that allows for selection of at-bat result
-document.getElementById("modalOk").addEventListener("click", () => {
-    if (!currentCell) return;
-
-    const select = document.getElementById("outcomeSelect");
-    const hit = select.value;
-
-    const row = currentCell.closest("tr");
-    const playerIndex = [...row.parentNode.children].indexOf(row);
-    const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(currentCell);
-
-    if (!hit) {
-        currentCell.dataset.hit = "";
-        const svg = currentCell.querySelector("svg");
-        if (svg) resetCellVisuals(svg, currentCell); // Reuse helper
-    } else {
-        currentCell.dataset.hit = hit;
-        const svg = currentCell.querySelector("svg");
-        updateBases(svg, hit, currentCell);
-    }
-
-    // Update game state, totals, and highlights
-    updateGameState(playerIndex, inningIndex, hit);
-    updateTotals();
-    saveState();
-    highlightCurrentBatter(currentCell);
-    highlightCurrentInning(inningIndex);
-
-    hideModal();
-});
+const atBatOutcomes = ["1B", "2B", "3B", "HR", "BB", "K", "FO", "GO", "HBP", "E", "R"];
 
 // Updates the totals for hits, runs, and errors
 function updateTotals() {
@@ -247,18 +243,21 @@ function updateTotals() {
     rows.forEach(row => {
         const atBats = row.querySelectorAll(".at-bat");
         let playerHitTotal = 0;
+        let playerRunTotal = 0;
 
         atBats.forEach((cell, i) => {
             const hit = cell.dataset.hit;
+            const originalHit = cell.dataset.originalHit;
 
-            // Hits
-            if (["1B", "2B", "3B", "HR"].includes(hit)) {
+            // Hits — count only original hits
+            if (["1B", "2B", "3B", "HR"].includes(originalHit)) {
                 playerHitTotal += 1;
                 inningHitTotals[i] += 1;
             }
 
-            // Runs (HR counts as 1 run)
-            if (hit === "HR") {
+            // Runs — increments runs counter but nothing else
+            if (["HR", "R", "HBP+R", "BB+R"].includes(hit)) {
+                playerRunTotal += 1;
                 inningRunTotals[i] += 1;
                 teamRunTotal += 1;
             }
@@ -270,7 +269,11 @@ function updateTotals() {
             }
         });
 
-        row.querySelector(".player-hits").textContent = playerHitTotal;
+        const hitsCell = row.querySelector(".player-hits");
+        if (hitsCell) hitsCell.textContent = playerHitTotal;
+
+        const runsCell = row.querySelector(".player-runs");
+        if (runsCell) runsCell.textContent = playerRunTotal;
         teamHitTotal += playerHitTotal;
     });
 
@@ -307,7 +310,10 @@ function saveState() {
 
         // Collect hits/errors per player per inning
         const hits = rows.map(row =>
-            Array.from(row.querySelectorAll(".at-bat")).map(cell => cell.dataset.hit || "")
+            Array.from(row.querySelectorAll(".at-bat")).map(cell => ({
+                hit: cell.dataset.hit || "",
+                originalHit: cell.dataset.originalHit || ""
+            }))
         );
 
         // Ensure totals are up-to-date
@@ -384,11 +390,40 @@ function loadState() {
         rows.forEach((row, playerIndex) => {
             const cells = Array.from(row.querySelectorAll(".at-bat"));
             cells.forEach((cell, inningIndex) => {
-                const hit = hits[playerIndex]?.[inningIndex] || "";
-                if (hit) {
-                    cell.dataset.hit = hit;
-                    updateBases(cell.querySelector("svg"), hit, cell);
+                const hitData = hits[playerIndex]?.[inningIndex] || { hit: "", originalHit: "" };
+                const hit = hitData.hit;
+                if (!hit) return;
+
+                // Restore current hit
+                cell.dataset.hit = hit;
+
+                // Restore original hit (bottom-right notation)
+                if (!cell.dataset.originalHit) {
+                    cell.dataset.originalHit = hitData.originalHit || hit;
                 }
+
+                const svg = cell.querySelector("svg");
+                if (!svg) return;
+
+                // Add persistent notation using originalHit
+                addHitNotation(svg, hit, cell.dataset.originalHit);
+
+                // Restore polygon fill for HR and run-type hits
+                if (["HR", "R"].includes(hit)) {
+                    const polygon = svg.querySelector("polygon");
+                    if (polygon) polygon.setAttribute("fill", "black");
+                }
+
+                // Restore base paths for hits that require them
+                const hitPaths = {
+                    "1B": [".path-home-first"],
+                    "2B": [".path-home-first", ".path-first-second"],
+                    "3B": [".path-home-first", ".path-first-second", ".path-second-third"],
+                    "BB": [".path-home-first"],
+                    "HBP": [".path-home-first"]
+                };
+
+                if (hitPaths[hit]) showPath(svg, hitPaths[hit]);
             });
         });
 
@@ -437,62 +472,14 @@ function loadState() {
 
 let currentCell = null;
 
-function showModal(cell) {
-    currentCell = cell;
-    const modal = document.getElementById("atBatModal");
-    const overlay = document.getElementById("modalOverlay");
-    const select = document.getElementById("outcomeSelect");
-
-    select.value = cell.dataset.hit || ""; // Preselect previous hit
-    modal.style.display = overlay.style.display = "block";
-    select.focus();
-}
-
-function hideModal() {
-    const modal = document.getElementById("atBatModal");
-    const overlay = document.getElementById("modalOverlay");
-
-    modal.style.display = overlay.style.display = "none";
-    currentCell = null;
-}
-
-// Modal button handlers
-const modalOk = document.getElementById("modalOk");
-const modalCancel = document.getElementById("modalCancel");
-const modalOverlay = document.getElementById("modalOverlay");
-
-modalOk.addEventListener("click", () => {
-    if (!currentCell) return;
-
-    const hit = document.getElementById("outcomeSelect").value;
-    if (!hit) return;
-
-    const svg = currentCell.querySelector("svg");
-    currentCell.dataset.hit = hit;
-    updateBases(svg, hit, currentCell);
-
-    const row = currentCell.closest("tr");
-    const playerIndex = [...row.parentNode.children].indexOf(row);
-    const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(currentCell);
-
-    updateGameState(playerIndex, inningIndex, hit);
-    updateTotals();
-    saveState();
-    highlightCurrentBatter(currentCell);
-    highlightCurrentInning(currentCell.dataset.inning);
-
-    hideModal();
-});
-
-[modalCancel, modalOverlay].forEach(el => el.addEventListener("click", hideModal));
-
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- Initialize at-bat cells ---
     const atBatCells = document.querySelectorAll(".at-bat");
-
-    // Initialize SVG visuals and attach click for modal
     atBatCells.forEach(cell => {
+        // Add SVG for diamond/outs
         cell.innerHTML = `
-            <svg width="70" height="50" viewBox="0 0 70 50">
+            <svg width="70" height="55" viewBox="0 0 70 55">
                 <polygon points="25,0 50,25 25,50 0,25"
                     fill="white" stroke="black" stroke-width="1"/>
                 <path d="M25,50 L50,25" stroke="black" stroke-width="4" fill="none" class="path-home-first" opacity="0.2"/>
@@ -506,10 +493,58 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.addEventListener("click", () => showModal(cell));
     });
 
-    // Load saved state
-    loadState();
+    // --- Modal functions ---
+    const modal = document.getElementById("atBatModal");
+    const overlay = document.getElementById("modalOverlay");
+    const select = document.getElementById("outcomeSelect");
+    const modalOk = document.getElementById("modalOk");
+    const modalCancel = document.getElementById("modalCancel");
 
-    // Player name validation + persistence
+    function showModal(cell) {
+        currentCell = cell;
+        select.value = cell.dataset.hit || "";
+        modal.style.display = overlay.style.display = "block";
+        select.focus();
+    }
+
+    function hideModal() {
+        modal.style.display = overlay.style.display = "none";
+        currentCell = null;
+    }
+
+    // --- Modal button handlers ---
+    modalOk.addEventListener("click", () => {
+        if (!currentCell) return;
+
+        const hit = select.value;
+        currentCell.dataset.hit = hit;
+
+        // Save original hit only if not already set
+        if (!currentCell.dataset.originalHit) {
+            currentCell.dataset.originalHit = hit;
+        }
+
+        const svg = currentCell.querySelector("svg");
+        if (svg) resetCellVisuals(svg, currentCell); 
+        if (svg) updateBases(svg, hit, currentCell, currentCell.dataset.originalHit);
+
+        const row = currentCell.closest("tr");
+        const playerIndex = [...row.parentNode.children].indexOf(row);
+        const inningIndex = [...row.querySelectorAll(".at-bat")].indexOf(currentCell);
+
+        updateGameState(playerIndex, inningIndex, hit);
+        updateTotals();
+        saveState();
+        highlightCurrentBatter(currentCell);
+        highlightCurrentInning(inningIndex);
+        hideModal();
+    });
+
+
+
+    [modalCancel, overlay].forEach(el => el.addEventListener("click", hideModal));
+
+    // --- Player name input ---
     document.querySelectorAll(".player-name").forEach(cell => {
         cell.addEventListener("input", () => {
             cell.classList.toggle("invalid", !cell.textContent.trim());
@@ -517,7 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Team name validation + persistence
+    // --- Team name input ---
     const teamNameInput = document.querySelector(".teamNameInput");
     if (teamNameInput) {
         teamNameInput.addEventListener("input", () => {
@@ -526,7 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Reset button
+    // --- Reset button ---
     const resetButton = document.getElementById("resetScorecard");
     if (resetButton) {
         resetButton.addEventListener("click", () => {
@@ -535,18 +570,14 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.removeItem(STORAGE_KEY);
             currentCell = null;
 
-            // Reset all at-bat cells
             atBatCells.forEach(cell => {
                 cell.dataset.hit = "";
                 cell.removeAttribute("data-out-recorded");
-
                 const svg = cell.querySelector("svg");
                 if (!svg) return;
-
                 svg.querySelector("polygon")?.setAttribute("fill", "white");
                 svg.querySelectorAll("path").forEach(path => path.setAttribute("opacity", "0.2"));
                 svg.querySelector(".hit-text")?.remove();
-
                 const outsCircle = svg.querySelector("circle");
                 const outsText = svg.querySelector(".outs-text");
                 if (outsCircle) outsCircle.setAttribute("opacity", "0");
@@ -556,23 +587,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Clear out-tracking arrays
             inningOutCells.forEach(arr => arr.length = 0);
             inningOuts.fill(0);
 
-            // Reset player names
             document.querySelectorAll(".player-name").forEach((cell, i) => {
                 cell.textContent = `Player ${i + 1}`;
                 cell.classList.remove("invalid");
             });
 
-            // Reset team name
             if (teamNameInput) {
                 teamNameInput.textContent = "";
                 teamNameInput.classList.remove("invalid");
             }
 
-            // Reset totals and highlights
             updateTotals();
             document.querySelectorAll(".current-batter, .current-inning").forEach(el => {
                 el.classList.remove("current-batter", "current-inning");
@@ -581,4 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveState();
         });
     }
+
+    // --- Load previous state ---
+    loadState();
 });

@@ -4,6 +4,17 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.3.0] DD-MM-YYYY
+### Added
+- Runner advancement has been added.
+  - Established originalHit which sets persistent hit notation in every cell.
+- All hits are now noted next to the diamond.
+
+### Fixed
+- Walks and hit-by-pitches now accurately count zero hits, but a run if batter reaches home
+
+---
+
 ## [0.2.4] 27-08-2025
 ### Changed
 - This one's all about refactoring. I've gone through all the code and refactored what I could.
