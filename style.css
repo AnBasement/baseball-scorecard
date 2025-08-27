@@ -1,105 +1,109 @@
+/* ========== Base Styles ========== */
 body {
-    background-color: #fff;
-    font-family: Arial, sans-serif;
-    padding: 20px;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+/* ========== Table ========== */
 table {
-    width: 100%;
-    max-width: 1200px; /* keeps it readable on smaller screens */
-    margin: 0 auto; /* centers table horizontally */
-    border-collapse: collapse;
-    table-layout: fixed; /* ensures even column widths */
+  width: 100%;
+  max-width: 1200px;       /* keeps it readable on smaller screens */
+  margin: 0 auto;          /* centers table horizontally */
+  border-collapse: collapse;
+  table-layout: fixed;      /* ensures even column widths */
 }
 
-table, th, td {
-    border: 1px solid #000;
+table,
+th,
+td {
+  border: 1px solid #000;
 }
 
-th, td {
-    text-align: center;
-    vertical-align: middle;
-    padding: 10px;
+th,
+td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px;
 }
 
 tr {
-    height: 70px; /* slightly smaller row height for readability */
+  height: 70px;             /* slightly smaller row height for readability */
 }
 
 tr:nth-child(even) {
-    background-color: #e2e2e2f3;
+  background-color: #e2e2e2f3;
 }
 
 tfoot {
-    border-top: 6px double black;
+  border-top: 6px double black;
 }
 
-
-input.player-name, input.teamNameInput {
-    width: 90%;
-    padding: 5px;
-    font-size: 1rem;
-    box-sizing: border-box;
+/* ========== Forms ========== */
+input.player-name,
+input.teamNameInput {
+  width: 90%;
+  padding: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 input.invalid {
-    border: 2px solid red;
+  border: 2px solid red;
 }
 
+/* ========== Controls ========== */
 .controls {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 #resetScorecard {
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
-/* Modal container */
+/* ========== Modal ========== */
 #atBatModal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border: 2px solid black;
-    padding: 1rem;
-    z-index: 1000;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 2px solid #000;
+  padding: 1rem;
+  z-index: 1000;
 }
 
-/* Modal buttons container */
 #atBatModal div {
-    margin-top: 0.5rem;
-    text-align: right;
+  margin-top: 0.5rem;
+  text-align: right;
 }
 
 /* Overlay behind modal */
 #modalOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 900;
+  display: none;
+  position: fixed;
+  inset: 0;                       /* shorthand for top/right/bottom/left: 0 */
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 900;
 }
 
-/* Highlighting current batter */
+/* ========== Highlighting ========== */
 .current-batter {
-  outline-offset: -3px; 
-  background-color: hwb(199 8% 10% / 0.363) !important; 
+  outline-offset: -3px;
+  background-color: hwb(199 8% 10% / 0.363) !important;
 }
 
-/* Highlighting current inning */
 .current-inning {
   background-color: rgba(0, 123, 255, 0.08);
 }

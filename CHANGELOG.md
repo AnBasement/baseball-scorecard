@@ -4,6 +4,14 @@ This file details all changes made to the project and serves as a simple way for
 
 ---
 
+## [0.2.4] 27-08-2025
+### Changed
+- This one's all about refactoring. I've gone through all the code and refactored what I could.
+  - Definitely asked various AI bots for help on this one when I couldn't figure something out myself.
+    - AI changes definitely broke things that I then had to fix half the time.
+
+---
+
 ## [0.2.3] - 26-08-2025
 ### Added
 - Added defensive errors as an at-bat option.
